@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subir Archivos Excel</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles_conciliacion.css') }}">
+  <script src="{{ url_for('static', filename='script_conciliacion.js') }}"></script>  
+</head>
+<body>
+  <div class="container">
+    <h1>Sube tus Archivos Excel</h1>
+    <form action="/procesar" method="post" enctype="multipart/form-data">
+      <div class="drop-zone" id="drop-zone-1">
+        <p>Arrastra y suelta el MAYOR aquí o haz clic para seleccionarlo</p>
+        <input type="file" name="archivo_original" id="archivo_original" required>
+      </div>
+
+      <div class="drop-zone" id="drop-zone-2">
+        <p>Arrastra y suelta el EXTRACTO aquí o haz clic para seleccionarlo</p>
+        <input type="file" name="archivo_extracto" id="archivo_extracto" required>
+      </div>
+
+      <button type="submit" id="procesar-btn">Procesar Archivos</button>
+    </form>
+    <!-- Enlace para volver al menú principal -->
+    <a href="{{ url_for('index') }}" id="back-menu-btn" class="button">Volver al Menú</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+/* Estilo general */
+body {
+    font-family: Arial, sans-serif;
+    background: url("image_conciliacion.png") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Centra la caja verticalmente */
+}
+
+/* Contenedor principal */
+.container {
+    width: 80%;
+    max-width: 1000px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Encabezado */
+h1 {
+    color: #e5c07b;
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+/* Zona de carga de archivos */
+.drop-zone {
+    border: 3px dashed #e5c07b;
+    padding: 50px; /* Caja más grande */
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease-in-out;
+    font-size: 25px;
+    text-align: center;
+}
+
+.drop-zone:hover,
+.drop-zone.dragover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Ocultar input file */
+input[type="file"] {
+    display: none;
+}
+
+/* Botón de procesamiento */
+button {
+    background: #e5c07b;
+    color: black;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #d49a2e;
+}

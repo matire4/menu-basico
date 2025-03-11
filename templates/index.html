@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú Principal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles_index.css') }}">
+  <script src="{{ url_for('static', filename='script_index.js') }}" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Mi Aplicación Bancaria</h1>
+    <button id="darkModeToggle">Modo Oscuro</button>
+  </header>
+  
+  <div class="main-content">
+    <!-- Menú a la izquierda -->
+    <nav class="menu">
+      <ul>
+        <li><a href="{{ url_for('conciliacion') }}">Realizar conciliación bancaria</a></li>
+        <li><a href="#">Opción 2</a></li>
+        <li><a href="#">Opción 3</a></li>
+      </ul>
+    </nav>
+    <!-- Carrusel a la derecha -->
+    <div class="carousel">
+      <img src="{{ url_for('static', filename='image_conciliacion.png') }}" alt="Imagen 1" class="carousel-image active">
+      <img src="{{ url_for('static', filename='ALMA_NEGRA.png') }}" alt="Imagen 2" class="carousel-image">
+      <img src="{{ url_for('static', filename='logo.webp') }}" alt="Imagen 3" class="carousel-image">
+    </div>
+  </div>
+</body>
+</html>
