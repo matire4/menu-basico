@@ -1,5 +1,5 @@
 {
   "routes": [
-    { "src": "/", "dest": "/templates/index.html" }
+    { "src": "/", "dest": "/back/app.py" }
   ]
 }
