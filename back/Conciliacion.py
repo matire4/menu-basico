@@ -3,33 +3,28 @@ import shutil
 import pandas as pd
 import re
 from datetime import datetime
-from flask import Flask, render_template, request, send_file
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
 
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-
-# Se asume que el directorio de trabajo es la raíz del proyecto
-app = Flask(__name__,
-            template_folder=os.path.join(project_root, "templates"),
-            static_folder=os.path.join(project_root, "static"))
-
-app.config["UPLOAD_FOLDER"] = os.path.join(project_root, "uploads")
-app.config["OUTPUT_FOLDER"] = os.path.join(project_root, "output")
+conciliacion_bp = Blueprint('conciliacion_bp', __name__)
 
 # Crear las carpetas si no existen
-os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-os.makedirs(app.config["OUTPUT_FOLDER"], exist_ok=True)
+UPLOAD_FOLDER = 'uploads'
+OUTPUT_FOLDER = 'output'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 def procesar_archivos(archivo_original, archivo_extracto):
-    archivo_copia = os.path.join(app.config["OUTPUT_FOLDER"], "ConciliacionPrueba.xlsx")
+    archivo_copia = os.path.join(OUTPUT_FOLDER, "ConciliacionPrueba.xlsx")
     shutil.copy(archivo_original, archivo_copia)
 
-    wb = load_workbook(archivo_copia)
-    ws = wb["Reporte"]
+    try:
+        wb = load_workbook(archivo_copia)
+        ws = wb.active  # Tomamos la primera hoja
 
-    wb_extracto = load_workbook(archivo_extracto)
-    ws_extracto = wb_extracto["Sheet1"]
+    except Exception as e:
+        return f"Error al abrir el archivo: {str(e)}"
 
     ws["A3"] = "Origen"
     ws["I3"] = "Minuta"
@@ -52,6 +47,12 @@ def procesar_archivos(archivo_original, archivo_extracto):
             return datetime.strptime(valor, "%d-%m-%Y")
         except (ValueError, TypeError):
             return None
+
+    try:
+        wb_extracto = load_workbook(archivo_extracto)
+        ws_extracto = wb_extracto["Sheet1"]
+    except Exception as e:
+        return f"Error al abrir extracto: {str(e)}"
 
     for row in range(2, ws_extracto.max_row + 1):
         fecha = convertir_a_fecha(ws_extracto[f"A{row}"].value)
@@ -167,32 +168,33 @@ def procesar_archivos(archivo_original, archivo_extracto):
     wb.save(archivo_copia)
     return archivo_copia
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-@app.route("/conciliacion")
+@conciliacion_bp.route('/conciliacion', methods=['GET', 'POST'])
 def conciliacion():
-    return render_template("conciliacion.html")
+    if request.method == 'POST':
+        # Verificar que se hayan enviado ambos archivos
+        if 'archivo_original' not in request.files or 'archivo_extracto' not in request.files:
+            return jsonify({'error': 'No se envió uno o ambos archivos'}), 400
 
-@app.route("/procesar", methods=["POST"])
-def procesar():
-    archivo_original = request.files["archivo_original"]
-    archivo_extracto = request.files["archivo_extracto"]
+        archivo_original = request.files['archivo_original']
+        archivo_extracto = request.files['archivo_extracto']
 
-    archivo_original_path = os.path.join(app.config["UPLOAD_FOLDER"], archivo_original.filename)
-    archivo_extracto_path = os.path.join(app.config["UPLOAD_FOLDER"], archivo_extracto.filename)
+        if archivo_original.filename == '' or archivo_extracto.filename == '':
+            return jsonify({'error': 'Nombre de archivo vacío en uno de los archivos'}), 400
 
-    print(f"Guardando archivo original en: {archivo_original_path}")
-    print(f"Guardando archivo extracto en: {archivo_extracto_path}")
+        # Guardar archivos
+        filepath_original = os.path.join(UPLOAD_FOLDER, archivo_original.filename)
+        filepath_extracto = os.path.join(UPLOAD_FOLDER, archivo_extracto.filename)
+        archivo_original.save(filepath_original)
+        archivo_extracto.save(filepath_extracto)
 
-    archivo_original.save(archivo_original_path)
-    archivo_extracto.save(archivo_extracto_path)
+        # Aquí puedes llamar a tu función de procesamiento que use ambos archivos
+        # Procesar los archivos
+        resultado = procesar_archivos(filepath_original, filepath_extracto)
+        if isinstance(resultado, str) and resultado.startswith("Error"):
+            return jsonify({'error': resultado}), 500
 
-    archivo_resultado = procesar_archivos(archivo_original_path, archivo_extracto_path)
-
-    os.startfile(archivo_resultado)
-    return render_template("conciliacion.html")
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+        # Redirigir a la ruta intermedia que disparará la descarga y luego redirigirá al menú
+        return redirect(url_for('resultado', filename=os.path.basename(resultado)))
+    
+    # Si es GET, renderiza el formulario
+    return render_template('conciliacion.html')

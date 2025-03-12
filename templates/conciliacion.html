@@ -10,7 +10,7 @@
 <body>
   <div class="container">
     <h1>Sube tus Archivos Excel</h1>
-    <form action="/procesar" method="post" enctype="multipart/form-data">
+    <form action="{{ url_for('conciliacion_bp.conciliacion') }}" method="POST" enctype="multipart/form-data">
       <div class="drop-zone" id="drop-zone-1">
         <p>Arrastra y suelta el MAYOR aquí o haz clic para seleccionarlo</p>
         <input type="file" name="archivo_original" id="archivo_original" required>
@@ -24,7 +24,7 @@
       <button type="submit" id="procesar-btn">Procesar Archivos</button>
     </form>
     <!-- Enlace para volver al menú principal -->
-    <a href="{{ url_for('index') }}" id="back-menu-btn" class="button">Volver al Menú</a>
+    <a href="{{ url_for('home') }}" id="back-menu-btn" class="button">Volver al Menú</a>
   </div>
 </body>
 </html>

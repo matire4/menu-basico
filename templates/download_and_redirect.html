@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Descargando Archivo...</title>
+    <script>
+        window.onload = function(){
+            // Dispara la descarga
+            var link = document.createElement("a");
+            link.href = "{{ url_for('download_file', filename=filename) }}";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Redirige al menú principal después de 3 segundos
+            setTimeout(function(){
+                window.location.href = "{{ url_for('home') }}";
+            }, 3000);
+        };
+    </script>
+</head>
+<body>
+    <p>Descargando archivo... Serás redirigido al menú principal en unos segundos.</p>
+</body>
+</html>

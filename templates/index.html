@@ -8,26 +8,72 @@
   <script src="{{ url_for('static', filename='script_index.js') }}" defer></script>
 </head>
 <body>
-  <header>
-    <h1>Mi Aplicación Bancaria</h1>
-    <button id="darkModeToggle">Modo Oscuro</button>
-  </header>
-  
-  <div class="main-content">
-    <!-- Menú a la izquierda -->
-    <nav class="menu">
-      <ul>
-        <li><a href="{{ url_for('conciliacion') }}">Realizar conciliación bancaria</a></li>
-        <li><a href="#">Opción 2</a></li>
-        <li><a href="#">Opción 3</a></li>
-      </ul>
-    </nav>
-    <!-- Carrusel a la derecha -->
-    <div class="carousel">
-      <img src="{{ url_for('static', filename='image_conciliacion.png') }}" alt="Imagen 1" class="carousel-image active">
-      <img src="{{ url_for('static', filename='ALMA_NEGRA.png') }}" alt="Imagen 2" class="carousel-image">
-      <img src="{{ url_for('static', filename='logo.webp') }}" alt="Imagen 3" class="carousel-image">
-    </div>
+  <div class="layout">
+    <!-- Header (full width) -->
+    <header class="top-bar">
+      <div class="logo">
+        <h2>Menu interactivo</h2>
+      </div>
+      <div class="theme-toggle">
+        <button id="darkModeToggle" class="dark-mode-btn">
+          <span class="icon-light">☀️</span>
+          <span class="icon-dark">🌙</span>
+          <span class="text">Toggle Theme</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content (centrado dentro del layout) -->
+    <main class="main-content">
+      <div class="content-area">
+        <h1 class="page-title">Seleccionar alguna de las opciones</h1>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+          <a href="{{ url_for('conciliacion_bp.conciliacion') }}" class="nav-button">
+            <span class="icon">🏦</span>
+            <span class="text">Conciliación</span>
+          </a>
+          <a href="#" class="nav-button">
+            <span class="icon">📄</span>
+            <span class="text">Extractos</span>
+          </a>
+          <a href="#" class="nav-button">
+            <span class="icon">📈</span>
+            <span class="text">EERR</span>
+          </a>
+        </div>
+
+        <!-- Carousel (centrado dentro del layout) -->
+        <div class="carousel-container">
+          <div class="carousel">
+            <div class="carousel-item active">
+              <img class="carousel-image" src="{{ url_for('static', filename='image_conciliacion.png') }}" alt="Imagen 1">
+            </div>
+            <div class="carousel-item">
+              <img class="carousel-image" src="{{ url_for('static', filename='ALMA_NEGRA.png') }}" alt="Imagen 2">
+            </div>
+            <div class="carousel-item">
+              <img class="carousel-image" src="{{ url_for('static', filename='Barriles.png') }}" alt="Imagen 3">
+            </div>
+          </div>
+          <button class="carousel-btn prev">❮</button>
+          <button class="carousel-btn next">❯</button>
+          <div class="carousel-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ticker (full width, con el mismo formato que el top-bar) -->
+      <div class="ticker-container">
+        <div class="ticker">
+          <span>Recuerda no compartir el enlace con terceros. Además, al solicites un archivo de Excel, asegúrate de que sea en formato .xlsx</span>
+        </div>
+      </div>
+    </main>
   </div>
 </body>
 </html>
