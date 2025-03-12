@@ -21,6 +21,10 @@ def download_file(filename):
         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
+@app.route("/static/<path:filename>")
+def static_files(filename):
+    return send_from_directory("static", filename)
+
 @app.route('/resultado/<filename>')
 def resultado(filename):
     return render_template('download_and_redirect.html', filename=filename)
