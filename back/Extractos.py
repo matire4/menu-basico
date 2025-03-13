@@ -10,8 +10,8 @@ from werkzeug.utils import secure_filename
 extractos_bp = Blueprint('extractos_bp', __name__)
 
 # Carpetas de trabajo
-UPLOAD_FOLDER = 'uploads'
-OUTPUT_FOLDER = 'output'
+UPLOAD_FOLDER = '/tmp/uploads'
+OUTPUT_FOLDER = '/tmp/output'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
