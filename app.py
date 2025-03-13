@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_file, redirect, url_for
+from flask import Flask, render_template, send_file, redirect, url_for, send_from_directory
 import os
 
 # Importar los Blueprints
@@ -21,9 +21,9 @@ def download_file(filename):
         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
-@app.route("/static/<path:filename>")
-def static_files(filename):
-    return send_from_directory("static", filename)
+#@app.route("/static/<path:filename>")
+#def static_files(filename):
+#    return send_from_directory("static", filename)
 
 @app.route('/resultado/<filename>')
 def resultado(filename):
