@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: nombre-del-servicio  # Este es el nombre de tu servicio (puede ser cualquier nombre único)
+    name: menu-basico  # Este es el nombre de tu servicio (puede ser cualquier nombre único)
     env: python
     plan: free  # Puedes cambiar esto a otro plan según tu necesidad
     branch: main  # Rama donde se encuentra tu código
