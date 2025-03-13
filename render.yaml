@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: nombre-del-servicio  # Este es el nombre de tu servicio (puede ser cualquier nombre único)
+    env: python
+    plan: free  # Puedes cambiar esto a otro plan según tu necesidad
+    branch: main  # Rama donde se encuentra tu código
+    buildCommand: "pip install -r requirements.txt"  # Este comando instalará tus dependencias
+    startCommand: "python app.py"  # El comando para iniciar tu aplicación (ajustado a tu archivo app.py)
+    autoDeploy: true  # Opcional, para desplegar automáticamente después de cada push a la rama principal
